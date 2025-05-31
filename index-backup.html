@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemResearch Pro - Forschungschemikalien für Wissenschaft & Industrie</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Transition */
+        .page {
+            opacity: 1;
+            transform: translateX(0);
+            transition: all 0.5s ease-in-out;
+            flex: 1;
+        }
+
+        .page.slide-out {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        .page.slide-in {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        .page.slide-in.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-box input {
+            border: none;
+            padding: 10px 15px;
+            width: 300px;
+            outline: none;
+        }
+
+        .search-box button {
+            background: #2d7d7d;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cart-icon {
+            position: relative;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #2d7d7d;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 0.5rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f0f0" width="1200" height="400"/><text x="600" y="200" text-anchor="middle" fill="%23666" font-size="24">Laboratory Background</text></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            border-radius: 15px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #2d7d7d;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45,125,125,0.4);
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .star {
+            color: #1e3c72;
+            font-size: 1rem;
+        }
+
+        .star.filled {
+            color: #1e3c72;
+        }
+
+        .star.half {
+            background: linear-gradient(90deg, #1e3c72 50%, #ddd 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .star.empty {
+            color: #ddd;
+        }
+
+        /* Product Grid */
+        .products-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 3rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #1e3c72;
+        }
+
+        .product-formula {
+            font-family: 'Courier New', monospace;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-purity {
+            background: #e8f5e8;
+            color: #2d5a2d;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d7d7d;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: #1e3c72;
+            flex: 2;
+        }
+
+        /* Product Detail Page */
+        .product-detail-page {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 200px);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            align-self: flex-start;
+        }
+
+        .product-detail-main {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .product-detail-image {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 6rem;
+            margin: 0 auto 2rem;
+        }
+
+        .product-detail-title {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .product-detail-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-detail-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-detail-purity {
+            background: #e8f5e8;
+            color: #2d5a2d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-detail-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2d7d7d;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background: #f8f9fa;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .quantity-btn:hover {
+            background: #e9ecef;
+        }
+
+        .quantity-number {
+            border: none;
+            padding: 15px 25px;
+            text-align: center;
+            font-size: 1.2rem;
+            width: 100px;
+        }
+
+        .product-detail-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-description {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+
+        .product-description h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .product-description p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Related Products */
+        .related-products {
+            margin-bottom: 3rem;
+        }
+
+        .related-products h3 {
+            text-align: center;
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 2rem;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .related-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .related-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2d7d7d;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: #1e3c72;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-content {
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-total {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #2d7d7d;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-box input {
+                width: 200px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .product-detail-main {
+                padding: 2rem 1rem;
+            }
+
+            .product-detail-image {
+                width: 250px;
+                height: 250px;
+                font-size: 4rem;
+            }
+
+            .product-detail-title {
+                font-size: 2rem;
+            }
+
+            .product-detail-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-detail-actions .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid #2d7d7d;
+            box-shadow:  0 4px 15px rgba(0, 0, 0, 0.1),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            color: #1e3c72;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(255, 255, 255, 0.15) 47%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.15) 53%,
+                transparent 55%
+            );
+            animation: glassShine 5s infinite;
+        }
+
+        .warning-banner strong {
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        @keyframes glassShine {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <a href="#" class="logo" onclick="showHomePage()">
+                    <i class="fas fa-flask"></i> ChemResearch Pro
+                </a>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="Chemikalie suchen...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showHomePage()"><i class="fas fa-home"></i> Startseite</a></li>
+                    <li><a href="#"><i class="fas fa-vial"></i> Organische Chemie</a></li>
+                    <li><a href="#"><i class="fas fa-atom"></i> Anorganische Chemie</a></li>
+                    <li><a href="#"><i class="fas fa-dna"></i> Biochemie</a></li>
+                    <li><a href="#"><i class="fas fa-certificate"></i> Zertifikate</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Home Page -->
+            <div id="homePage" class="page">
+                <div class="warning-banner">
+                    <strong>Wichtiger Hinweis:</strong> Alle Produkte sind ausschließlich für wissenschaftliche Forschung und industrielle Anwendungen bestimmt. 
+                    Verkauf nur an lizenzierte Institutionen und Fachpersonal. Nicht für den menschlichen Verzehr geeignet.
+                </div>
+
+                <section class="hero">
+                    <h1>Hochreine Forschungschemikalien</h1>
+                    <p>Für Wissenschaft, Forschung und industrielle Anwendungen</p>
+                    <a href="#products" class="btn">Produktkatalog ansehen</a>
+                </section>
+
+                <section id="products" class="products-section">
+                    <h2 class="section-title">Aktuelle Produkte</h2>
+                    <div class="product-grid">
+                        <div class="product-card" onclick="showProductDetail('natriumchlorid')">
+                            <div class="product-image">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3 class="product-title">Natriumchlorid (NaCl)</h3>
+                            <div class="product-formula">Molekularformel: NaCl</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                            </div>
+                            <span class="product-purity">Reinheit: 99.9%</span>
+                            <div class="product-price">€24.99 / 500g</div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation(); showProductDetail('natriumchlorid')">Details</button>
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('Natriumchlorid', 24.99)">In Warenkorb</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" onclick="showProductDetail('ethanol')">
+                            <div class="product-image">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <h3 class="product-title">Ethanol (C₂H₅OH)</h3>
+                            <div class="product-formula">Molekularformel: C₂H₅OH</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star half"></i>
+                            </div>
+                            <span class="product-purity">Reinheit: 99.8%</span>
+                            <div class="product-price">€45.99 / 1L</div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation(); showProductDetail('ethanol')">Details</button>
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('Ethanol', 45.99)">In Warenkorb</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" onclick="showProductDetail('schwefelsaeure')">
+                            <div class="product-image">
+                                <i class="fas fa-atom"></i>
+                            </div>
+                            <h3 class="product-title">Schwefelsäure (H₂SO₄)</h3>
+                            <div class="product-formula">Molekularformel: H₂SO₄</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star empty"></i>
+                            </div>
+                            <span class="product-purity">Reinheit: 98.0%</span>
+                            <div class="product-price">€32.99 / 500ml</div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation(); showProductDetail('schwefelsaeure')">Details</button>
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('Schwefelsäure', 32.99)">In Warenkorb</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" onclick="showProductDetail('aceton')">
+                            <div class="product-image">
+                                <i class="fas fa-microscope"></i>
+                            </div>
+                            <h3 class="product-title">Aceton (C₃H₆O)</h3>
+                            <div class="product-formula">Molekularformel: C₃H₆O</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                            </div>
+                            <span class="product-purity">Reinheit: 99.5%</span>
+                            <div class="product-price">€28.99 / 1L</div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation(); showProductDetail('aceton')">Details</button>
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('Aceton', 28.99)">In Warenkorb</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" onclick="showProductDetail('glucose')">
+                            <div class="product-image">
+                                <i class="fas fa-dna"></i>
+                            </div>
+                            <h3 class="product-title">Glucose (C₆H₁₂O₆)</h3>
+                            <div class="product-formula">Molekularformel: C₆H₁₂O₆</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star half"></i>
+                                <i class="fas fa-star star empty"></i>
+                            </div>
+                            <span class="product-purity">Reinheit: 99.9%</span>
+                            <div class="product-price">€19.99 / 250g</div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation(); showProductDetail('glucose')">Details</button>
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('Glucose', 19.99)">In Warenkorb</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card" onclick="showProductDetail('kaliumhydroxid')">
+                            <div class="product-image">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3 class="product-title">Kaliumhydroxid (KOH)</h3>
+                            <div class="product-formula">Molekularformel: KOH</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star filled"></i>
+                                <i class="fas fa-star star empty"></i>
+                            </div>
+                            <span class="product-purity">Reinheit: 99.0%</span>
+                            <div class="product-price">€35.99 / 500g</div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation(); showProductDetail('kaliumhydroxid')">Details</button>
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('Kaliumhydroxid', 35.99)">In Warenkorb</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Product Detail Page -->
+            <div id="productDetailPage" class="page" style="display: none;">
+                <div class="product-detail-page">
+                    <button class="btn back-btn" onclick="showHomePage()">
+                        <i class="fas fa-arrow-left"></i> Zurück zum Katalog
+                    </button>
+                    
+                    <div id="productDetailContent">
+                        <!-- Content will be dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Warenkorb</h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-content">
+            <div id="cartItems">
+                <p style="text-align: center; color: #666; padding: 2rem;">
+                    Ihr Warenkorb ist leer
+                </p>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <strong>Gesamtsumme:</strong>
+                    <strong id="totalAmount">€0.00</strong>
+                </div>
+                <button class="btn" style="width: 100%; margin-bottom: 0.5rem;" onclick="proceedToCheckout()">
+                    Zur Kasse
+                </button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="clearCart()">
+                    Warenkorb leeren
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Über ChemResearch Pro</h3>
+                    <p>Ihr vertrauensvoller Partner für hochreine Forschungschemikalien seit 1995. 
+                    Wir beliefern Universitäten, Forschungseinrichtungen und die Industrie weltweit.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Produktkategorien</h3>
+                    <ul>
+                        <li><a href="#">Organische Chemikalien</a></li>
+                        <li><a href="#">Anorganische Chemikalien</a></li>
+                        <li><a href="#">Biochemikalien</a></li>
+                        <li><a href="#">Lösungsmittel</a></li>
+                        <li><a href="#">Reagenzien</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Service</h3>
+                    <ul>
+                        <li><a href="#">Kundenservice</a></li>
+                        <li><a href="#">Technischer Support</a></li>
+                        <li><a href="#">Lieferinformationen</a></li>
+                        <li><a href="#">Rückgabe & Umtausch</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Rechtliches</h3>
+                    <ul>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">AGB</a></li>
+                        <li><a href="#">Sicherheitsdatenblätter</a></li>
+                        <li><a href="#">Zertifikate</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ChemResearch Pro GmbH. Alle Rechte vorbehalten. | 
+                Lizenziert für den Handel mit Forschungschemikalien | 
+                ISO 9001:2015 zertifiziert</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let cartCount = 0;
+        let currentQuantity = 1;
+
+        // Product data with unique IDs
+        const products = {
+            natriumchlorid: {
+                id: 'natriumchlorid',
+                name: 'Natriumchlorid (NaCl)',
+                formula: 'NaCl',
+                iupac: 'Natriumchlorid',
+                price: 24.99,
+                unit: '500g',
+                purity: '99.9%',
+                rating: 5,
+                icon: 'fas fa-flask',
+                description: 'Hochreines Natriumchlorid für analytische und synthetische Anwendungen. Ideal für Pufferlösungen, als Elektrolyt in der Elektrochemie und für die Herstellung von Natriumverbindungen. Unser Natriumchlorid erfüllt höchste Qualitätsstandards und ist frei von organischen Verunreinigungen. Besonders geeignet für quantitative Analysen, Kristallisationsexperimente und als Referenzstandard in der analytischen Chemie.',
+                specs: {
+                    'CAS-Nummer': '7647-14-5',
+                    'Molekulargewicht': '58.44 g/mol',
+                    'Schmelzpunkt': '801°C',
+                    'Siedepunkt': '1465°C',
+                    'Löslichkeit': '360 g/L (20°C)',
+                    'Lagerung': 'Trocken, bei Raumtemperatur'
+                }
+            },
+            ethanol: {
+                id: 'ethanol',
+                name: 'Ethanol (C₂H₅OH)',
+                formula: 'C₂H₅OH',
+                iupac: 'Ethanol',
+                price: 45.99,
+                unit: '1L',
+                purity: '99.8%',
+                rating: 4.5,
+                icon: 'fas fa-vial',
+                description: 'Absolutes Ethanol höchster Reinheit für Extraktionen, Synthesen und als Lösungsmittel. Wasserfrei und hochrein, ideal für organische Synthesen, Extraktionsverfahren und als Reaktionsmedium. Unser Ethanol ist speziell für Laboranwendungen aufbereitet und enthält keine Denaturierungsmittel. Perfekt geeignet für HPLC-Anwendungen, spektroskopische Untersuchungen und präparative Chemie.',
+                specs: {
+                    'CAS-Nummer': '64-17-5',
+                    'Molekulargewicht': '46.07 g/mol',
+                    'Schmelzpunkt': '-114°C',
+                    'Siedepunkt': '78.4°C',
+                    'Dichte': '0.789 g/cm³',
+                    'Lagerung': 'Kühl, trocken, feuerfest'
+                }
+            },
+            schwefelsaeure: {
+                id: 'schwefelsaeure',
+                name: 'Schwefelsäure (H₂SO₄)',
+                formula: 'H₂SO₄',
+                iupac: 'Schwefelsäure',
+                price: 32.99,
+                unit: '500ml',
+                purity: '98.0%',
+                rating: 4,
+                icon: 'fas fa-atom',
+                description: 'Konzentrierte Schwefelsäure für Synthesen und analytische Verfahren. Höchste Reinheit für kritische Anwendungen in der organischen und anorganischen Chemie. Ideal für Sulfonierungsreaktionen, als Katalysator und Dehydratisierungsmittel. Unsere Schwefelsäure ist besonders rein und eignet sich für anspruchsvolle Synthesearbeiten und analytische Bestimmungen.',
+                specs: {
+                    'CAS-Nummer': '7664-93-9',
+                    'Molekulargewicht': '98.08 g/mol',
+                    'Schmelzpunkt': '10°C',
+                    'Siedepunkt': '337°C',
+                    'Dichte': '1.84 g/cm³',
+                    'Lagerung': 'Säurebeständiger Behälter'
+                }
+            },
+            aceton: {
+                id: 'aceton',
+                name: 'Aceton (C₃H₆O)',
+                formula: 'C₃H₆O',
+                iupac: 'Propan-2-on',
+                price: 28.99,
+                unit: '1L',
+                purity: '99.5%',
+                rating: 5,
+                icon: 'fas fa-microscope',
+                description: 'Reinstes Aceton für Extraktionen, Reinigungen und als Lösungsmittel. HPLC-Qualität für höchste Ansprüche in der analytischen Chemie. Ideal für die Reinigung von Glasgeräten, als Lösungsmittel für organische Verbindungen und für chromatographische Anwendungen. Unser Aceton ist wasserfrei und frei von Peroxiden, was es besonders sicher und zuverlässig macht.',
+                specs: {
+                    'CAS-Nummer': '67-64-1',
+                    'Molekulargewicht': '58.08 g/mol',
+                    'Schmelzpunkt': '-95°C',
+                    'Siedepunkt': '56.1°C',
+                    'Dichte': '0.784 g/cm³',
+                    'Lagerung': 'Kühl, trocken, feuerfest'
+                }
+            },
+            glucose: {
+                id: 'glucose',
+                name: 'Glucose (C₆H₁₂O₆)',
+                formula: 'C₆H₁₂O₆',
+                iupac: 'D-Glucopyranose',
+                price: 19.99,
+                unit: '250g',
+                purity: '99.9%',
+                rating: 3.5,
+                icon: 'fas fa-dna',
+                description: 'D-Glucose höchster Reinheit für biochemische Anwendungen und Zellkultur. Pharmazeutische Qualität für Forschung und Entwicklung. Ideal für Zellkulturmedien, enzymatische Assays und als Kohlenstoffquelle in mikrobiologischen Experimenten. Unsere Glucose ist pyrogenfrei und erfüllt alle Anforderungen für biochemische und biotechnologische Anwendungen.',
+                specs: {
+                    'CAS-Nummer': '50-99-7',
+                    'Molekulargewicht': '180.16 g/mol',
+                    'Schmelzpunkt': '146°C',
+                    'Optische Rotation': '+52.7°',
+                    'Löslichkeit': '909 g/L (25°C)',
+                    'Lagerung': 'Trocken, bei Raumtemperatur'
+                }
+            },
+            kaliumhydroxid: {
+                id: 'kaliumhydroxid',
+                name: 'Kaliumhydroxid (KOH)',
+                formula: 'KOH',
+                iupac: 'Kaliumhydroxid',
+                price: 35.99,
+                unit: '500g',
+                purity: '99.0%',
+                rating: 4,
+                icon: 'fas fa-flask',
+                description: 'Kaliumhydroxid-Pellets höchster Qualität für Synthesen und pH-Regulierung. Analytische Qualität für präzise Titrationen und Basenkatalyse. Ideal für die Herstellung von Kaliumsalzen, als starke Base in organischen Synthesen und für die Aufbereitung von Proben. Unsere KOH-Pellets sind besonders rein und lösen sich schnell und vollständig in Wasser.',
+                specs: {
+                    'CAS-Nummer': '1310-58-3',
+                    'Molekulargewicht': '56.11 g/mol',
+                    'Schmelzpunkt': '406°C',
+                    'Siedepunkt': '1327°C',
+                    'Löslichkeit': '1120 g/L (25°C)',
+                    'Lagerung': 'Trocken, luftdicht'
+                }
+            }
+        };
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function showHomePage() {
+            const homePage = document.getElementById('homePage');
+            const detailPage = document.getElementById('productDetailPage');
+            
+            detailPage.classList.add('slide-out');
+            setTimeout(() => {
+                detailPage.style.display = 'none';
+                detailPage.classList.remove('slide-out');
+                homePage.style.display = 'block';
+                homePage.classList.add('slide-in', 'active');
+                setTimeout(() => {
+                    homePage.classList.remove('slide-in');
+                }, 80);
+            }, 310);
+        }
+
+        function showProductDetail(productId) {
+            const product = products[productId];
+            if (!product) return;
+
+            const homePage = document.getElementById('homePage');
+            const detailPage = document.getElementById('productDetailPage');
+            const contentDiv = document.getElementById('productDetailContent');
+
+            // Remove the initial scroll
+            // Generate star rating HTML
+            let starsHTML = '';
+            const fullStars = Math.floor(product.rating);
+            const hasHalfStar = product.rating % 1 !== 0;
+            
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    starsHTML += '<i class="fas fa-star star filled"></i>';
+                } else if (i === fullStars && hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star star half"></i>';
+                } else {
+                    starsHTML += '<i class="fas fa-star star empty"></i>';
+                }
+            }
+
+            // Get related products (exclude current product)
+            const relatedProducts = Object.values(products)
+                .filter(p => p.id !== productId)
+                .slice(0, 3);
+
+            let relatedHTML = '';
+            relatedProducts.forEach(related => {
+                relatedHTML += `
+                    <div class="related-card" onclick="showProductDetail('${related.id}')">
+                        <div class="related-image">
+                            <i class="${related.icon}"></i>
+                        </div>
+                        <div class="related-title">${related.name}</div>
+                        <div class="related-price">€${related.price.toFixed(2)} / ${related.unit}</div>
+                    </div>
+                `;
+            });
+
+            contentDiv.innerHTML = `
+                <div class="product-detail-main">
+                    <div class="product-detail-image">
+                        <i class="${product.icon}"></i>
+                    </div>
+                    
+                    <h1 class="product-detail-title">${product.name}</h1>
+                    <div class="product-detail-formula">Molekularformel: ${product.formula}</div>
+                    <div class="product-detail-formula">IUPAC-Name: ${product.iupac}</div>
+                    
+                    <div class="product-detail-rating">
+                        <div class="star-rating">
+                            ${starsHTML}
+                        </div>
+                        <span style="color: #666;">(${product.rating}/5)</span>
+                    </div>
+                    
+                    <div class="product-detail-purity">Reinheit: ${product.purity}</div>
+                    <div class="product-detail-price">€${product.price.toFixed(2)} / ${product.unit}</div>
+                    
+                    <div class="quantity-selector">
+                        <label><strong>Menge:</strong></label>
+                        <div class="quantity-input">
+                            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" class="quantity-number" id="quantityInput" value="1" min="1" max="99">
+                            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-detail-actions">
+                        <button class="btn btn-primary" style="padding: 15px 40px; font-size: 1.1rem;" onclick="addToCartFromDetail('${productId}')">
+                            <i class="fas fa-cart-plus"></i> In Warenkorb
+                        </button>
+                        <button class="btn btn-secondary" style="padding: 15px 30px;">
+                            <i class="fas fa-heart"></i> Merken
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-description">
+                    <h3>Produktbeschreibung</h3>
+                    <p>${product.description}</p>
+                </div>
+                
+                <div class="related-products">
+                    <h3>Könnte Ihnen auch gefallen:</h3>
+                    <div class="related-grid">
+                        ${relatedHTML}
+                    </div>
+                </div>
+            `;
+
+            // Animate page transition
+            homePage.classList.add('slide-out');
+            setTimeout(() => {
+                homePage.style.display = 'none';
+                homePage.classList.remove('slide-out');
+                detailPage.style.display = 'block';
+                detailPage.classList.add('slide-in');
+                
+                // Scroll to top AFTER the page transition, with faster animation
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'instant'  // Changed from 'smooth' to 'instant'
+                });
+
+                setTimeout(() => {
+                    detailPage.classList.add('active');
+                    detailPage.classList.remove('slide-in');
+                }, 50);
+            }, 300);
+
+            currentQuantity = 1;
+        }
+
+        function changeQuantity(delta) {
+            const input = document.getElementById('quantityInput');
+            let newValue = parseInt(input.value) + delta;
+            if (newValue < 1) newValue = 1;
+            if (newValue > 99) newValue = 99;
+            input.value = newValue;
+            currentQuantity = newValue;
+        }
+
+        function addToCartFromDetail(productId) {
+            const product = products[productId];
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            
+            for (let i = 0; i < quantity; i++) {
+                addToCart(product.name, product.price);
+            }
+        }
+
+        function addToCart(productName, price) {
+            const existingItem = cart.find(item => item.name === productName);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            cartCount++;
+            updateCartDisplay();
+            
+            // Show success message
+            showNotification(`${productName} wurde zum Warenkorb hinzugefügt!`);
+        }
+
+        function removeFromCart(index) {
+            const item = cart[index];
+            cartCount -= item.quantity;
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartCountElement = document.querySelector('.cart-count');
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            const totalAmountElement = document.getElementById('totalAmount');
+            
+            cartCountElement.textContent = cartCount;
+            
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Ihr Warenkorb ist leer</p>';
+                cartTotalElement.style.display = 'none';
+            } else {
+                let cartHTML = '';
+                let total = 0;
+                
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    cartHTML += `
+                        <div class="cart-item">
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <small>€${item.price.toFixed(2)} × ${item.quantity}</small>
+                            </div>
+                            <div>
+                                <strong>€${itemTotal.toFixed(2)}</strong>
+                                <button onclick="removeFromCart(${index})" style="margin-left: 10px; background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                cartItemsElement.innerHTML = cartHTML;
+                totalAmountElement.textContent = `€${total.toFixed(2)}`;
+                cartTotalElement.style.display = 'block';
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            cartCount = 0;
+            updateCartDisplay();
+            showNotification('Warenkorb wurde geleert!');
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showNotification('Ihr Warenkorb ist leer!', 'error');
+                return;
+            }
+            
+            // Simulate checkout process
+            showNotification('Weiterleitung zur Kasse...', 'success');
+            
+            // Here you would typically redirect to a checkout page
+            setTimeout(() => {
+                alert('Checkout-Funktionalität würde hier implementiert werden.\n\nIhr Warenkorb enthält:\n' + 
+                      cart.map(item => `${item.quantity}x ${item.name}`).join('\n'));
+            }, 1000);
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? '#dc3545' : '#2d7d7d'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 5px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Close cart when clicking outside
+        document.addEventListener('click', function(event) {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartIcon = document.querySelector('.cart-icon');
+            
+            if (!cartSidebar.contains(event.target) && !cartIcon.contains(event.target)) {
+                cartSidebar.classList.remove('open');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Handle quantity input changes
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'quantityInput') {
+                let value = parseInt(e.target.value);
+                if (value < 1) value = 1;
+                if (value > 99) value = 99;
+                e.target.value = value;
+                currentQuantity = value;
+            }
+        });
+    </script>
+</body>
+</html>
